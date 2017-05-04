@@ -12,41 +12,41 @@
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
 /******/ 			l: false,
 /******/ 			exports: {}
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.l = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// identity function for calling harmory imports with the correct context
 /******/ 	__webpack_require__.i = function(value) { return value; };
-
+/******/
 /******/ 	// define getter function for harmory exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		Object.defineProperty(exports, name, {
@@ -55,13 +55,13 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 			get: getter
 /******/ 		});
 /******/ 	};
-
+/******/
 /******/ 	// Object.prototype.hasOwnProperty.call
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-
+/******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
@@ -1911,6 +1911,8 @@ module.exports = function stripHexPrefix(str) {
 
 var isHexPrefixed = __webpack_require__(1);
 var stripHexPrefix = __webpack_require__(2);
+// require buffer if it isn't present
+var Buf = typeof Buffer === 'undefined' ? __webpack_require__(0) : Buffer;
 
 /**
  * Adds "0x" to a given `String` if it does not already start with "0x"
@@ -1963,7 +1965,7 @@ function intToHex(i) {
 function intToBuffer(i) {
   var hex = intToHex(i);
 
-  return new Buffer(hex.slice(2), 'hex');
+  return new Buf(hex.slice(2), 'hex');
 }
 
 /**
@@ -1976,7 +1978,7 @@ function getBinarySize(str) {
     throw new Error('[ethjs-util] while getting binary size, method getBinarySize requires input \'str\' to be type String, got \'' + typeof str + '\'.');
   }
 
-  return Buffer.byteLength(str, 'utf8');
+  return Buf.byteLength(str, 'utf8');
 }
 
 /**
@@ -2009,7 +2011,7 @@ function arrayContainsArray(superset, subset, some) {
  * @returns {String} ascii string representation of hex value
  */
 function toUtf8(hex) {
-  var bufferValue = new Buffer(padToEven(stripHexPrefix(hex).replace(/^0+|0+$/g, '')), 'hex');
+  var bufferValue = new Buf(padToEven(stripHexPrefix(hex).replace(/^0+|0+$/g, '')), 'hex');
 
   return bufferValue.toString('utf8');
 }
@@ -2047,7 +2049,7 @@ function toAscii(hex) {
  * @returns {String} hex representation of input string
  */
 function fromUtf8(stringValue) {
-  var str = new Buffer(stringValue, 'utf8');
+  var str = new Buf(stringValue, 'utf8');
 
   return '0x' + padToEven(str.toString('hex')).replace(/^0+|0+$/g, '');
 }
